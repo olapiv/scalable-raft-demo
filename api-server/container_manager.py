@@ -6,11 +6,11 @@ import uuid
 
 
 IMAGE_TO_SPAWN = os.environ.get("IMAGE_TO_SPAWN")
-CLOUD_BASE_URL = os.environ.get("API_SERVER_BASE_URL")
+API_SERVER_BASE_URL = os.environ.get("API_SERVER_BASE_URL")
 
 client = docker.from_env()
 
-environment = {"BOOTSTRAP_HOST": "false", "API_SERVER_BASE_URL": CLOUD_BASE_URL}
+environment = {"BOOTSTRAP_HOST": "false", "API_SERVER_BASE_URL": API_SERVER_BASE_URL}
 
 networks = client.networks.list()
 all_network_attrs = [network.attrs for network in networks]
