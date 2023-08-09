@@ -9,6 +9,7 @@ import (
 )
 
 func (client *HttpClient) GetDesiredState() (newDesiredState *myraft.DesiredState, err error) {
+	client.log.Info("Requesting a new desired state")
 	getDesiredStateRequest, err := client.createGetRequest(client.getDesiredStateEndpoint)
 	if err != nil {
 		err = fmt.Errorf("cannot create request to get desired state; reason: %v", err)
