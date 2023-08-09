@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option go_package = "github.com/olapiv/scalable-raft-demo/raft_api_proto";
+
+package raft_api_proto.v1;
+
+message Empty {}
+
+message GenericReply {
+    string message = 1;
+}
+
+service RaftApi {
+
+  // Not part of official Raft API
+  rpc IsPartOfCluster (Empty) returns (IsPartOfClusterReply) {}
+
+  rpc LeaderWithID (Empty) returns (LeaderWithIDReply) {}
+  rpc AddVoter (AddVoterRequest) returns (GenericReply) {}
+  rpc RemoveServer (RemoveServerRequest) returns (GenericReply) {}
+  rpc DemoteVoter (RemoveServerRequest) returns (GenericReply) {}
+}
+
+message IsPartOfClusterReply {
+    bool PartOfCluster = 1;
+}
+
+message LeaderWithIDReply {
+    string ServerID = 1;
+    string ServerAddress = 2;
+}
+
+message AddVoterRequest {
+    string ServerID = 1;
+    string ServerAddress = 2;
+    uint64 PrevIndex = 3;
+}
+
+message RemoveServerRequest {
+    string ServerID = 1;
+    uint64 PrevIndex = 2;
+}

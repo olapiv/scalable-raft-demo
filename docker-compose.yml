@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  api-server:
+    build: ./api-server
+    container_name: api-server
+    restart: "no"
+    environment:
+      API_SERVER_BASE_URL: "http://api-server:8000"
+      IMAGE_TO_SPAWN: "scalable-raft-node"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./desired_state.json:/home/desired_state.json
+
+  bootstrap_raft:
+    image: scalable-raft-node
+    build:
+      context: ./raft-node
+      # target: runnable
+    container_name: bootstrap_raft
+    environment:
+      HOST_NAME: "bootstrap_raft"
+      BOOTSTRAP_HOST: "true"
+      API_SERVER_BASE_URL: "http://api-server:8000"
+
+networks:
+  default:
+    attachable: true
