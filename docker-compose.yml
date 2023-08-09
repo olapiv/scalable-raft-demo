@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   api-server:
+    image: raft-api-server
     build: ./api-server
     container_name: api-server
     restart: "no"
@@ -14,9 +15,7 @@ services:
 
   bootstrap_raft:
     image: scalable-raft-node
-    build:
-      context: ./raft-node
-      # target: runnable
+    build: ./raft-node
     container_name: bootstrap_raft
     environment:
       HOST_NAME: "bootstrap_raft"
