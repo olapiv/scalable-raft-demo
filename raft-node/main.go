@@ -196,8 +196,11 @@ func main() {
 				); err != nil {
 					logger.Sugar().Errorf("Failed running the reconciliation loop; reason: %v", err)
 
-					// TODO: If still leader, run:
-					// quit <- syscall.SIGINT
+					// We may have run into an error because we lost leadership
+					_, leaderId := raftObj.LeaderWithID()
+					if raftId == leaderId {
+						quit <- syscall.SIGINT
+					}
 
 				} else {
 					logger.Warn("The reconciliation worker has stopped")
