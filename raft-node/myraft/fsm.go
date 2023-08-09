@@ -25,7 +25,7 @@ func NewMyFSM(log *zap.Logger) *MyFSM {
 	return &MyFSM{
 		log:   log,
 		mu:    sync.RWMutex{},
-		state: &DesiredState{},
+		state: nil,
 	}
 }
 
@@ -90,6 +90,10 @@ func (fsm *MyFSM) Snapshot() (raft.FSMSnapshot, error) {
 func (fsm *MyFSM) GetState() (*DesiredState, error) {
 	fsm.mu.RLock()
 	defer fsm.mu.RUnlock()
+
+	if fsm.state == nil {
+		return nil, nil
+	}
 
 	data, err := json.Marshal(fsm.state)
 	if err != nil {

@@ -18,7 +18,6 @@ app = Flask(__name__)
 @app.route("/desired_state", methods=["GET"])
 def get_desired_state():
     new_desired_state = read_desired_state()
-    # state_id = new_desired_state["Id"] if "Id" in new_desired_state else 0
     print(
         f"""
 Sending desired state:
